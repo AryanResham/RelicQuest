@@ -24,7 +24,28 @@ export interface IUser extends Document {
   orders: mongoose.Types.ObjectId[];
   isVerified: boolean;
   authProvider: 'local' | 'google';
-  role: 'customer' | 'admin';
+  role: 'customer' | 'seller' | 'admin';
+  // Seller-specific fields
+  isSeller: boolean;
+  sellerProfile?: {
+    storeName: string;
+    storeDescription: string;
+    businessEmail: string;
+    businessPhone: string;
+    businessAddress: {
+      street: string;
+      city: string;
+      state: string;
+      zipCode: string;
+      country: string;
+    };
+    taxId?: string;
+    isVerified: boolean;
+    verificationDocuments?: string[];
+    rating: number;
+    totalSales: number;
+    joinedAsSellerAt: Date;
+  };
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
@@ -110,8 +131,65 @@ const UserSchema: Schema = new Schema({
   },
   role: {
     type: String,
-    enum: ['customer', 'admin'],
+    enum: ['customer', 'seller', 'admin'],
     default: 'customer'
+  },
+  isSeller: {
+    type: Boolean,
+    default: false
+  },
+  sellerProfile: {
+    storeName: {
+      type: String,
+      trim: true,
+      maxlength: 100
+    },
+    storeDescription: {
+      type: String,
+      trim: true,
+      maxlength: 1000
+    },
+    businessEmail: {
+      type: String,
+      lowercase: true,
+      trim: true
+    },
+    businessPhone: {
+      type: String,
+      trim: true
+    },
+    businessAddress: {
+      street: { type: String, trim: true },
+      city: { type: String, trim: true },
+      state: { type: String, trim: true },
+      zipCode: { type: String, trim: true },
+      country: { type: String, trim: true, default: 'US' }
+    },
+    taxId: {
+      type: String,
+      trim: true
+    },
+    isVerified: {
+      type: Boolean,
+      default: false
+    },
+    verificationDocuments: [{
+      type: String // URLs to uploaded documents
+    }],
+    rating: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 5
+    },
+    totalSales: {
+      type: Number,
+      default: 0,
+      min: 0
+    },
+    joinedAsSellerAt: {
+      type: Date
+    }
   }
 }, {
   timestamps: true

@@ -2,10 +2,19 @@
 
 import { useState } from "react"
 import { Link, useLocation } from "react-router-dom"
-import { Search, Heart, ShoppingCart, User } from "lucide-react"
+import { Search, Heart, ShoppingCart, User, LogOut, LogIn } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { useAuth } from "../contexts/AuthContext"
 
 interface HeaderProps {
   cartCount: number
@@ -15,11 +24,16 @@ interface HeaderProps {
 export default function Header({ cartCount, wishlistCount = 0 }: HeaderProps) {
   const [searchQuery, setSearchQuery] = useState("")
   const location = useLocation()
+  const { user, signOut } = useAuth()
 
   const getLinkClass = (path: string) => {
     const baseClass = "text-foreground hover:text-red-500 transition-colors"
     const activeClass = "text-red-500 font-semibold"
     return location.pathname === path ? `${baseClass} ${activeClass}` : baseClass
+  }
+
+  const handleLogout = async () => {
+    await signOut()
   }
 
   return (
@@ -45,15 +59,22 @@ export default function Header({ cartCount, wishlistCount = 0 }: HeaderProps) {
             <Link to="/wishlist" className={getLinkClass("/wishlist")}>
               Wishlist
             </Link>
+            {user && (
+              <Link to="/sell" className={getLinkClass("/sell")}>
+                Sell
+              </Link>
+            )}
             <Link to="/contact" className={getLinkClass("/contact")}>
               Contact
             </Link>
             <Link to="/about" className={getLinkClass("/about")}>
               About
             </Link>
-            <Link to="/signup" className={getLinkClass("/signup")}>
-              Sign Up
-            </Link>
+            {!user && (
+              <Link to="/signup" className={getLinkClass("/signup")}>
+                Sign Up
+              </Link>
+            )}
           </nav>
 
           {/* Search and actions */}
@@ -91,9 +112,39 @@ export default function Header({ cartCount, wishlistCount = 0 }: HeaderProps) {
               </Button>
             </Link>
 
-            <Button variant="ghost" size="icon">
-              <User className="h-5 w-5" />
-            </Button>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <User className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>
+                    {user.displayName || user.email}
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/profile">Profile</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link to="/orders">My Orders</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button asChild variant="ghost" size="sm">
+                <Link to="/login">
+                  <LogIn className="mr-2 h-4 w-4" />
+                  Login
+                </Link>
+              </Button>
+            )}
           </div>
         </div>
       </div>

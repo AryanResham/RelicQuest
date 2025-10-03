@@ -5,6 +5,7 @@ interface ISpecifications {
 }
 
 export interface IProduct extends Document {
+  user: mongoose.Types.ObjectId;
   name: string;
   price: number;
   originalPrice?: number;
@@ -21,6 +22,11 @@ export interface IProduct extends Document {
 }
 
 const ProductSchema: Schema = new Schema({
+  user:{
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
   name: {
     type: String,
     required: true,
