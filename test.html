@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RareFinds - Collectibles Auction</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#195de6",
+            "background-light": "#f6f6f8",
+            "background-dark": "#111621",
+            "card-dark": "#1c1f26", // Slightly lighter than bg-dark for contrast
+            "text-secondary": "#9da6b8"
+          },
+          fontFamily: {
+            "display": ["Manrope", "Noto Sans", "sans-serif"],
+            "body": ["Manrope", "Noto Sans", "sans-serif"],
+          },
+          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111318] dark:text-white font-display overflow-x-hidden antialiased">
+<div class="relative flex min-h-screen w-full flex-col group/design-root">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-50 w-full border-b border-solid border-[#e5e7eb] dark:border-[#292e38] bg-white/95 dark:bg-[#111318]/95 backdrop-blur-sm px-4 lg:px-10 py-3">
+<div class="flex items-center justify-between gap-4 mx-auto max-w-[1440px]">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 text-[#111318] dark:text-white">
+<div class="size-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-size: 24px;">search</span>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-[-0.015em]">RareFinds</h2>
+</div>
+<div class="hidden md:flex">
+<label class="flex flex-col min-w-40 !h-10 w-64 lg:w-96">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full group focus-within:ring-2 ring-primary/50 transition-all">
+<div class="text-text-secondary flex border-none bg-[#f3f4f6] dark:bg-[#292e38] items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg rounded-l-none border-none bg-[#f3f4f6] dark:bg-[#292e38] focus:ring-0 text-[#111318] dark:text-white placeholder:text-text-secondary px-3 text-sm font-normal leading-normal" placeholder="Search for collectibles..." value=""/>
+</div>
+</label>
+</div>
+</div>
+<div class="flex items-center gap-4 sm:gap-8">
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-[#111318] dark:text-white text-sm font-medium hover:text-primary transition-colors" href="#">How it Works</a>
+<a class="text-[#111318] dark:text-white text-sm font-medium hover:text-primary transition-colors" href="#">Auctions</a>
+<a class="text-[#111318] dark:text-white text-sm font-medium hover:text-primary transition-colors" href="#">Sell</a>
+</nav>
+<div class="flex gap-3">
+<button class="hidden sm:flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-transparent border border-[#e5e7eb] dark:border-[#383d47] text-[#111318] dark:text-white text-sm font-bold hover:bg-[#f3f4f6] dark:hover:bg-[#292e38] transition-colors">
+<span class="truncate">Login</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-9 px-4 bg-primary hover:bg-primary/90 text-white text-sm font-bold shadow-[0_0_15px_rgba(25,93,230,0.3)] transition-all">
+<span class="truncate">Join Now</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Layout Container -->
+<div class="flex flex-col flex-1 w-full mx-auto max-w-[1440px]">
+<!-- Hero Section -->
+<section class="@container w-full px-4 lg:px-10 py-6 lg:py-8">
+<div class="flex min-h-[480px] lg:min-h-[560px] flex-col gap-6 bg-cover bg-center bg-no-repeat rounded-2xl items-start justify-end px-6 pb-10 lg:px-16 lg:pb-16 relative overflow-hidden" data-alt="Abstract dark gradient mesh representing premium digital atmosphere" style='background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0.9) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuAnaHYBo3TesQEJIfxb2CoLAi-7o6Rl4h-PlMDt9EwDQUm3D0n3htaXIKkNDfMeFo7k7ND6snNGzWZvn3KahdKm9vyR5s-pIMHRhl05giJL3_nwJIcASwEDRHUNHG4NcNuskZe9HYBES2Z8AzjEtqTwskDFzyovKPPI-mBjlzidw6plW7tErgI5JhmiUcVmdX-uGTGkmEpZyv2hVGb9_kreGg0H9_sG3danrUJTd9ZIEVeTwTRqIWyw03K2MkxA1V3UjbEKOfDU7bo");'>
+<!-- Optional overlay for text readability -->
+<div class="absolute inset-0 bg-gradient-to-t from-[#111318] via-transparent to-transparent opacity-60"></div>
+<div class="flex flex-col gap-3 text-left relative z-10 max-w-2xl">
+<h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] md:text-5xl lg:text-6xl drop-shadow-lg">
+              Discover the Extraordinary.
+            </h1>
+<h2 class="text-gray-200 text-lg font-normal leading-relaxed md:text-xl drop-shadow-md max-w-xl">
+              Buy and sell the world's most sought-after collectibles in a secure, premium marketplace.
+            </h2>
+</div>
+<div class="flex flex-wrap gap-4 relative z-10 mt-2">
+<button class="flex min-w-[120px] cursor-pointer items-center justify-center rounded-lg h-12 px-6 bg-primary hover:bg-primary/90 text-white text-base font-bold shadow-[0_4px_20px_rgba(25,93,230,0.4)] transition-all">
+              Start Selling
+            </button>
+<button class="flex min-w-[120px] cursor-pointer items-center justify-center rounded-lg h-12 px-6 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 text-white text-base font-bold transition-all">
+              Browse Auctions
+            </button>
+</div>
+</div>
+</section>
+<!-- Trust Indicators (Generated) -->
+<section class="px-4 lg:px-10 py-4">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 border-b border-[#e5e7eb] dark:border-[#292e38]">
+<div class="flex items-center gap-4 p-4 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-default">
+<div class="size-12 rounded-full bg-primary/20 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined">verified_user</span>
+</div>
+<div>
+<h3 class="font-bold text-lg dark:text-white">Verified Authenticity</h3>
+<p class="text-sm text-text-secondary">Every item is vetted by experts.</p>
+</div>
+</div>
+<div class="flex items-center gap-4 p-4 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-default">
+<div class="size-12 rounded-full bg-primary/20 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined">lock</span>
+</div>
+<div>
+<h3 class="font-bold text-lg dark:text-white">Secure Payments</h3>
+<p class="text-sm text-text-secondary">Transactions are protected end-to-end.</p>
+</div>
+</div>
+<div class="flex items-center gap-4 p-4 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-colors cursor-default">
+<div class="size-12 rounded-full bg-primary/20 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined">public</span>
+</div>
+<div>
+<h3 class="font-bold text-lg dark:text-white">Global Shipping</h3>
+<p class="text-sm text-text-secondary">We deliver securely to over 100 countries.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Live Auctions Header -->
+<div class="flex items-center justify-between px-4 lg:px-10 pt-8 pb-4">
+<h2 class="text-[#111318] dark:text-white text-[28px] font-bold leading-tight tracking-[-0.015em]">Live Auctions</h2>
+<a class="text-primary text-sm font-bold hover:underline flex items-center gap-1" href="#">
+          View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<!-- Live Auctions Carousel -->
+<section class="px-4 lg:px-10 pb-8">
+<div class="flex overflow-x-auto pb-4 gap-4 snap-x snap-mandatory scroll-smooth [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden">
+<!-- Card 1 -->
+<div class="snap-start flex-none w-[280px] md:w-[320px] flex flex-col gap-4 rounded-xl bg-white dark:bg-card-dark border border-[#e5e7eb] dark:border-[#292e38] shadow-sm hover:shadow-md dark:hover:shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all group cursor-pointer">
+<div class="relative w-full aspect-square overflow-hidden rounded-t-xl">
+<div class="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1 z-10 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">timer</span> 02h 14m
+              </div>
+<div class="w-full h-full bg-center bg-no-repeat bg-cover group-hover:scale-105 transition-transform duration-500" data-alt="Rare Pokemon card in protective case" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDN0U80Dlpvkiez2Mtir7GHFrc7Nxndasq6xOmvw_QO1CID9NViNxhViYsFGx8Lu85xqr0GJvqBuehV79jQOIIAXxCxz4hZ3ky77BK_JsocBAwKA3jBBvRMsr89ncQS0jmleeALCzOmg8YwNufKXh1qjZz2EtjcRO6XMfrl2MhZ3EGp6YR2EpaBHkQWP9bhAEfvrSgP-o3BMeWOEitBfvLPB_xU9bDPX5lxc2OFemEqumAnfDthEy0bzqAjkqN1bvfbDZNHFyYACpI");'></div>
+</div>
+<div class="flex flex-col flex-1 justify-between p-5 pt-2 gap-4">
+<div>
+<h3 class="text-[#111318] dark:text-white text-lg font-bold leading-normal truncate">1999 Charizard Holo</h3>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-text-secondary text-sm font-medium">Current Bid:</span>
+<span class="text-primary text-xl font-bold">$12,500</span>
+</div>
+</div>
+<button class="w-full flex cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-[#f3f4f6] dark:bg-[#292e38] hover:bg-primary hover:text-white dark:hover:bg-primary text-[#111318] dark:text-white text-sm font-bold transition-colors">
+                Place Bid
+              </button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="snap-start flex-none w-[280px] md:w-[320px] flex flex-col gap-4 rounded-xl bg-white dark:bg-card-dark border border-[#e5e7eb] dark:border-[#292e38] shadow-sm hover:shadow-md dark:hover:shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all group cursor-pointer">
+<div class="relative w-full aspect-square overflow-hidden rounded-t-xl">
+<div class="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1 z-10 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">timer</span> 05h 32m
+              </div>
+<div class="w-full h-full bg-center bg-no-repeat bg-cover group-hover:scale-105 transition-transform duration-500" data-alt="Luxury mechanical watch face close up" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA_45p-GFZSkWQVkIhVsTMHK7-uSTZiyQxWcbuNf8hidxKNo80G6B2Euk3nyoqrLk5XX0y91Ml32opL8aO88WibsNiY-bjX7Qly8Z0-Q88-5w4p2SE3pecI9nXjBS_GDK0--l0aYfpoBVU0qqN4N4J6XymV7vZQSu7WIN-VY0C7jIu36OJsH6-k2bPhzo3b8h4glypb6v3s-7hFtoOu0v3Se4FLB6cwxcjRVWmmNW2qYLHooQhn2Uj9J-j_1dTG8SZz_KgeTDZsM3U");'></div>
+</div>
+<div class="flex flex-col flex-1 justify-between p-5 pt-2 gap-4">
+<div>
+<h3 class="text-[#111318] dark:text-white text-lg font-bold leading-normal truncate">Rolex Submariner</h3>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-text-secondary text-sm font-medium">Current Bid:</span>
+<span class="text-primary text-xl font-bold">$8,200</span>
+</div>
+</div>
+<button class="w-full flex cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-[#f3f4f6] dark:bg-[#292e38] hover:bg-primary hover:text-white dark:hover:bg-primary text-[#111318] dark:text-white text-sm font-bold transition-colors">
+                Place Bid
+              </button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="snap-start flex-none w-[280px] md:w-[320px] flex flex-col gap-4 rounded-xl bg-white dark:bg-card-dark border border-[#e5e7eb] dark:border-[#292e38] shadow-sm hover:shadow-md dark:hover:shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all group cursor-pointer">
+<div class="relative w-full aspect-square overflow-hidden rounded-t-xl">
+<div class="absolute top-3 left-3 bg-[#eab308] text-black text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1 z-10 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">timer</span> 1d 12h
+              </div>
+<div class="w-full h-full bg-center bg-no-repeat bg-cover group-hover:scale-105 transition-transform duration-500" data-alt="Vintage electric guitar body" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCprU38qoAomcGdHPtvQmJ0m0PvLppguZXa06NIELMV2NkGSksocXiaZFRC730MSZb5844CfwbM4gIvGgnbCbLftG6mxU4NZh0NWZ424BXJ62m4RTuwaIhdGb0RYm03oIeyXhQe5xEcLSbdGwz3jMldtcXGQpDNzNNwlBB-O9I-3DOcQZFn6ZAfA2ZbYs-_kjpd5BXQAFmdKD76mMB1EctDvwMPSGhDUf55t5EiZBMUFJQNYgBNCHvYP2w3mTMXqCIohKMbC-wfZdE");'></div>
+</div>
+<div class="flex flex-col flex-1 justify-between p-5 pt-2 gap-4">
+<div>
+<h3 class="text-[#111318] dark:text-white text-lg font-bold leading-normal truncate">Vintage Gibson Les Paul</h3>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-text-secondary text-sm font-medium">Current Bid:</span>
+<span class="text-primary text-xl font-bold">$4,500</span>
+</div>
+</div>
+<button class="w-full flex cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-[#f3f4f6] dark:bg-[#292e38] hover:bg-primary hover:text-white dark:hover:bg-primary text-[#111318] dark:text-white text-sm font-bold transition-colors">
+                Place Bid
+              </button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="snap-start flex-none w-[280px] md:w-[320px] flex flex-col gap-4 rounded-xl bg-white dark:bg-card-dark border border-[#e5e7eb] dark:border-[#292e38] shadow-sm hover:shadow-md dark:hover:shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all group cursor-pointer">
+<div class="relative w-full aspect-square overflow-hidden rounded-t-xl">
+<div class="absolute top-3 left-3 bg-[#eab308] text-black text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1 z-10 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">timer</span> 2d 04h
+              </div>
+<div class="w-full h-full bg-center bg-no-repeat bg-cover group-hover:scale-105 transition-transform duration-500" data-alt="Street art style canvas print" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCcJM1l05WCZtkTS1jEvjhiPLAeCJ2Vclt1lWGnhIu8F9yxJZc02iRX96evOW8CxatU6JSzPRcDyT206Dua3metdsaX-Bmy_bPCWSXKCxPA-DmI9T4c37jkmiw7nXCNBU73PA5GAHrkKN6-LE03yog5DYl9kVjelY2lZc7wIg4QFi_csU1u0RDbUjkSysSP2gtv94yRrS-Ewj2uMT2GaIk6jRczsVztwIELx4CfWiQA70UIz3AoMOg47vH93CaP2GLniqDfcPUoxiE");'></div>
+</div>
+<div class="flex flex-col flex-1 justify-between p-5 pt-2 gap-4">
+<div>
+<h3 class="text-[#111318] dark:text-white text-lg font-bold leading-normal truncate">Banksy Print</h3>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-text-secondary text-sm font-medium">Current Bid:</span>
+<span class="text-primary text-xl font-bold">$22,000</span>
+</div>
+</div>
+<button class="w-full flex cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-[#f3f4f6] dark:bg-[#292e38] hover:bg-primary hover:text-white dark:hover:bg-primary text-[#111318] dark:text-white text-sm font-bold transition-colors">
+                Place Bid
+              </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Category Header -->
+<div class="px-4 lg:px-10 pt-4 pb-4">
+<h2 class="text-[#111318] dark:text-white text-[28px] font-bold leading-tight tracking-[-0.015em]">Browse by Category</h2>
+</div>
+<!-- Categories Grid -->
+<section class="px-4 lg:px-10 pb-16">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+<!-- Category 1 -->
+<a class="group relative flex flex-col overflow-hidden rounded-xl aspect-[4/3] bg-[#292e38]" href="#">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-80" data-alt="Close up of mechanical watch gears" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDeFa3Q19dyBdV6_cL4nwgjC-ItvOe4diAwkZvrpaee-yk1JS0z8WRK-iopoS61gp-JzkWMSt6B_-k9qxDsyEMeQIqOQ9VmMi_BBN5WmjkvyB7UsT9CljhS6jvVCpKYaSfuvAfac5bS5iXk0MioI_9-2n5VtZmdbtPNZDlhFv1ru6iY6mr5aVqcpreDtCYHS-dvQTyjlt9kh8-P-0ftaUaSxiDZf7ENbYhR1mpnQWZAJVkOfPxgyAiO3PA2qmBjEyafPIGJjU6ok-Y");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-4 w-full">
+<h3 class="text-white font-bold text-lg">Watches</h3>
+</div>
+</a>
+<!-- Category 2 -->
+<a class="group relative flex flex-col overflow-hidden rounded-xl aspect-[4/3] bg-[#292e38]" href="#">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-80" data-alt="Abstract colorful art piece" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCdCCQMlBiIgLolQoyRPhLZjR8NXewQObrT6hnXXElnGiq4YwYhYBVUZ7X4PCzYi89PhgEwNG8SD1fO0YBAUg_b1c1bsSRyNEkW9HVZYigOoarelAvPT7mntXotKlEHvI50AROQ-1b36jXkcM61JezlOtZHBzMQEOFKpaq8BlCvaLs7hheR9bbOqyf1XNQtVyA4zTGPI-Wesj20j5kycuUD3zoo2noF997Td0_mAdNf8IA5fedQuQOMPywQDH-SrjHnGp9Z4F5Bptk");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-4 w-full">
+<h3 class="text-white font-bold text-lg">Art</h3>
+</div>
+</a>
+<!-- Category 3 -->
+<a class="group relative flex flex-col overflow-hidden rounded-xl aspect-[4/3] bg-[#292e38]" href="#">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-80" data-alt="Baseball glove and ball on grass" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCMguAkr7nymVgL5GiSV4FCIFMwpMiUgoJ_4tjxts28BoqEGWTATZvS94o3q6TDys0A1s7BdYVQZV10mKHyiO0oPzfoG06RnltPnNvco5tgxgQ5Z1vAeXYYPA7DqLq91XXFTmNKmKOxbqr1V_ALC2hCfXpjQsa2tvTmP86pAsFPHniM8FehS_9oe8HvKj3g6nZFAi6zUK8eIlonsrJxrQVhhMXTJebrytM260AvhMGdTl9WH-MnqKDtOAXFPVr3m_HE9b2H-ytYkoI");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-4 w-full">
+<h3 class="text-white font-bold text-lg">Sports</h3>
+</div>
+</a>
+<!-- Category 4 -->
+<a class="group relative flex flex-col overflow-hidden rounded-xl aspect-[4/3] bg-[#292e38]" href="#">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-80" data-alt="Old coins pile" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAU4ioTg3xY8AUTuflAL77M4GDkibw7zbn5JNJGq3qoFcEWycsYFhIhoDUHImZZCe1KInQo2SBuOJQ_HB7r27Pm1xNlq-UpJUt5CNQgORmUEcPpipedmAu9-qP-VHglqM-5YLw2HLJupcFq8voMvkII3RETxW2z04yzXDuYkJ9FjwUnwitVWfY-ubsCpz76YtE_JuQJM0_xLo4nAfwDpQJobub6ceeQroKZvVfcamQ_gzEkTeW56izHy3JFcrD3Oc5lxzG9Nfl-qzk");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-4 w-full">
+<h3 class="text-white font-bold text-lg">Coins</h3>
+</div>
+</a>
+<!-- Category 5 -->
+<a class="group relative flex flex-col overflow-hidden rounded-xl aspect-[4/3] bg-[#292e38]" href="#">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-80" data-alt="Colorful comic books stack" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDZ1_SjCztAz5OssfNoc74S-_nr2T24CaxGLB9hMk0JQG-BlZAY4bP2vxpYn-RwLWMGRVCs7GjtOB5tnkhxODaoHel_qaoCn80o-MkxuWGNI18cCJVMusXG0nqnFMIJ6PAllYSGt5T3dJvRcPDn3pa_g5SY2CwJIspO1lPbluGawn8IhYwgls4bB8yJ70q-5DQTMI9AZWLnteW5DLpPEbUkyM3JKWcNDSBPMvzLpMe1c6BarKSsK31HsCdApxQnO5O72qqTnPjKUOs");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-4 w-full">
+<h3 class="text-white font-bold text-lg">Comics</h3>
+</div>
+</a>
+</div>
+</section>
+<!-- Featured Auction / Newsletter (Combined) -->
+<section class="px-4 lg:px-10 pb-16">
+<div class="w-full rounded-2xl bg-gradient-to-r from-[#292e38] to-[#1c1f26] p-8 lg:p-12 flex flex-col md:flex-row items-center justify-between gap-8 border border-white/5 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2"></div>
+<div class="flex flex-col gap-4 max-w-lg z-10">
+<h2 class="text-white text-3xl font-bold">Never miss a rare drop.</h2>
+<p class="text-text-secondary text-lg">Join our exclusive newsletter to get notified about upcoming high-value auctions and daily trends.</p>
+<div class="flex gap-2 mt-2 flex-col sm:flex-row">
+<input class="bg-black/30 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-gray-500 focus:ring-1 focus:ring-primary focus:border-primary outline-none min-w-[280px]" placeholder="Enter your email" type="email"/>
+<button class="bg-primary hover:bg-primary/90 text-white font-bold px-6 py-3 rounded-lg transition-colors">Subscribe</button>
+</div>
+</div>
+<div class="hidden md:block z-10">
+<span class="material-symbols-outlined text-primary/30" style="font-size: 180px;">mark_email_unread</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer -->
+<footer class="bg-white dark:bg-[#0b0e14] border-t border-[#e5e7eb] dark:border-[#1e232d] py-12 px-4 lg:px-10">
+<div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-2 text-[#111318] dark:text-white mb-2">
+<div class="size-6 rounded-md bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-size: 18px;">gavel</span>
+</div>
+<h2 class="text-lg font-bold">RareFinds</h2>
+</div>
+<p class="text-text-secondary text-sm">The world's premier destination for collectible auctions. Buy and sell with confidence.</p>
+</div>
+<div>
+<h4 class="text-[#111318] dark:text-white font-bold mb-4">Marketplace</h4>
+<ul class="flex flex-col gap-2 text-sm text-text-secondary">
+<li><a class="hover:text-primary transition-colors" href="#">All Auctions</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Trending</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Categories</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Past Sales</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-[#111318] dark:text-white font-bold mb-4">Support</h4>
+<ul class="flex flex-col gap-2 text-sm text-text-secondary">
+<li><a class="hover:text-primary transition-colors" href="#">Help Center</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Authentication</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Selling Guide</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Contact Us</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-[#111318] dark:text-white font-bold mb-4">Legal</h4>
+<ul class="flex flex-col gap-2 text-sm text-text-secondary">
+<li><a class="hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Cookie Policy</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-[1440px] mx-auto mt-12 pt-8 border-t border-[#e5e7eb] dark:border-[#1e232d] flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-text-secondary text-xs">© 2024 RareFinds Inc. All rights reserved.</p>
+<div class="flex gap-4 text-text-secondary">
+<a class="hover:text-white transition-colors" href="#"><i class="material-symbols-outlined">public</i></a>
+<a class="hover:text-white transition-colors" href="#"><i class="material-symbols-outlined">chat</i></a>
+<a class="hover:text-white transition-colors" href="#"><i class="material-symbols-outlined">rss_feed</i></a>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

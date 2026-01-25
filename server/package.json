@@ -1,0 +1,30 @@
+{
+  "name": "relicquest-server",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node ./dist/index.js",
+    "dev": "concurrently \"tsc -w\" \"nodemon ./dist/index.js\"",
+    "dev:ts": "ts-node-esm src/index.ts",
+    "clean": "if exist dist rmdir /s /q dist",
+    "prebuild": "npm run clean"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.9",
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.11",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.91.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "redis": "^5.10.0",
+    "socket.io": "^4.8.3"
+  }
+}
