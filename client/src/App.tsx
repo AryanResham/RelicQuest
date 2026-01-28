@@ -1,15 +1,12 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import StorefrontPage from "./pages/StorefrontPage";
-import ProductDetailPage from "./pages/ProductDetailPage";
+import { RouterProvider } from "react-router-dom";
+import Router from "./router";
+import AuthContextProvider from "./context/AuthContext";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<StorefrontPage />} />
-        <Route path="/auction/:id" element={<ProductDetailPage />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthContextProvider>
+      <RouterProvider router={Router}/>
+    </AuthContextProvider>
   );
 }
 
