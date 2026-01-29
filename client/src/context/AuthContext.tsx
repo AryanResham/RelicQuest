@@ -26,11 +26,17 @@ export default function AuthContextProvider({ children }: { children: React.Reac
     return () => subscription.unsubscribe()
   }, [])
 
-  const signUpUser = async (email: string, password: string) => {
+  const signUpUser = async (email: string, password: string, metadata?: { firstName?: string; lastName?: string }) => {
     try {
       const { data, error } = await supabase.auth.signUp({
         email: email.toLowerCase(),
-        password: password
+        password: password,
+        options: {
+          data: {
+            given_name: metadata?.firstName || '',
+            family_name: metadata?.lastName || '',
+          }
+        }
       })
       if (error) {
         console.error(error)
@@ -64,10 +70,13 @@ export default function AuthContextProvider({ children }: { children: React.Reac
 
   const logoutUser = async () => {
     try {
+      setLoading(true)
       return await supabase.auth.signOut()
     } catch (error) {
       console.error(error)
       return { success: false, error: error }
+    } finally {
+      setLoading(false)
     }
   }
 

@@ -4,6 +4,8 @@ import { useAuthContext } from "../context/useAuthContext";
 import { Button } from "../components/ui";
 
 export default function SignupPage() {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -31,7 +33,10 @@ export default function SignupPage() {
     }
 
     setLoading(true);
-    const result = await signUpUser(email, password);
+    const result = await signUpUser(email, password, {
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+    });
     
     if (result.success) {
       setSuccess(true);
@@ -90,7 +95,10 @@ export default function SignupPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2 text-white">
-            <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary"></div>
+            <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary"><span className="material-symbols-outlined text-primary text-2xl">
+    gavel
+  </span>
+</div>
             <h1 className="text-2xl font-bold tracking-tight">RelicQuest</h1>
           </Link>
         </div>
@@ -148,6 +156,38 @@ export default function SignupPage() {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Name fields row */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="firstName" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+                  First Name
+                </label>
+                <input
+                  id="firstName"
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder="John"
+                  required
+                  className="w-full h-12 px-4 rounded-lg bg-[var(--background-dark)] border border-[var(--border)] text-white placeholder:text-[var(--text-muted)] focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
+                />
+              </div>
+              <div>
+                <label htmlFor="lastName" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+                  Last Name
+                </label>
+                <input
+                  id="lastName"
+                  type="text"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  placeholder="Doe"
+                  required
+                  className="w-full h-12 px-4 rounded-lg bg-[var(--background-dark)] border border-[var(--border)] text-white placeholder:text-[var(--text-muted)] focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
+                />
+              </div>
+            </div>
+
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
                 Email
@@ -214,12 +254,18 @@ export default function SignupPage() {
             <Button type="submit" fullWidth size="lg" glow disabled={loading}>
               {loading ? "Creating account..." : "Create account"}
             </Button>
+
+            <Link to="/" className="block">
+              <Button type="button" fullWidth size="lg" variant="outline">
+                Cancel
+              </Button>
+            </Link>
           </form>
 
           {/* Login link */}
           <p className="mt-6 text-center text-[var(--text-secondary)]">
             Already have an account?{" "}
-            <Link to="/login" className="text-primary hover:text-primary/80 font-medium transition-colors">
+            <Link to="/login" className="text-primary hover:text-primary/50 font-medium transition-colors underline">
               Sign in
             </Link>
           </p>

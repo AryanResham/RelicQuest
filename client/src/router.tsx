@@ -4,7 +4,10 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import AuthCallback from "./pages/AuthCallback";
-import { PublicOnlyRoute } from "./components/auth";
+import ProfilePage from "./pages/ProfilePage";
+import EditProfilePage from "./pages/EditProfilePage";
+import BecomeSellerPage from "./pages/BecomeSellerPage";
+import { PublicOnlyRoute, ProtectedRoute } from "./components/auth";
 
 const Router = createBrowserRouter([
   // Public routes
@@ -37,17 +40,33 @@ const Router = createBrowserRouter([
   {
     path: "/auth/callback",
     element: <AuthCallback />
-  }
+  },
 
-  // Protected routes example (uncomment when you have protected pages):
-  // {
-  //   path: "/profile",
-  //   element: (
-  //     <ProtectedRoute>
-  //       <ProfilePage />
-  //     </ProtectedRoute>
-  //   )
-  // },
+  // Protected routes
+  {
+    path: "/profile",
+    element: (
+      <ProtectedRoute>
+        <ProfilePage />
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: "/profile/edit",
+    element: (
+      <ProtectedRoute>
+        <EditProfilePage />
+      </ProtectedRoute>
+    )
+  },
+  {
+    path: "/become-seller",
+    element: (
+      <ProtectedRoute>
+        <BecomeSellerPage />
+      </ProtectedRoute>
+    )
+  },
 ])
 
 export default Router

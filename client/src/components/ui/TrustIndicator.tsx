@@ -6,7 +6,7 @@ interface TrustIndicatorProps {
 
 function TrustIndicator({ icon, title, description }: TrustIndicatorProps) {
   return (
-    <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors cursor-default">
+    <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-white/5 transition-colors cursor-default justify-center">
       <div className="size-12 rounded-full bg-primary/20 flex items-center justify-center text-primary shrink-0">
         <span className="material-symbols-outlined">{icon}</span>
       </div>

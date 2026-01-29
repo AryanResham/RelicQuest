@@ -4,3 +4,6 @@ export { default as SearchInput } from "./SearchInput";
 export { default as AuctionCard } from "./AuctionCard";
 export { default as CategoryCard } from "./CategoryCard";
 export { default as TrustIndicator } from "./TrustIndicator";
+export { default as Badge } from "./Badge";
+export { default as StatCard } from "./StatCard";
+

@@ -13,11 +13,16 @@ type OAuthResult = {
   error?: string | unknown;
 }
 
+export type SignupMetadata = {
+  firstName?: string;
+  lastName?: string;
+}
+
 export type AuthContextType = {
   user: User | null;
   session: Session | null;
   loading: boolean;
-  signUpUser: (email: string, password: string) => Promise<AuthResult>;
+  signUpUser: (email: string, password: string, metadata?: SignupMetadata) => Promise<AuthResult>;
   loginUser: (email: string, password: string) => Promise<AuthResult>;
   logoutUser: () => Promise<{ error: Error | null } | AuthResult>;
   signInWithOAuth: (provider: Provider) => Promise<OAuthResult>;

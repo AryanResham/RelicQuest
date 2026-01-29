@@ -3,11 +3,8 @@ import { Button, SearchInput } from "../ui";
 import { useAuthContext } from "../../context/useAuthContext";
 
 function Header() {
-  const { user, loading, logoutUser } = useAuthContext();
+  const { user, loading } = useAuthContext();
 
-  const handleLogout = async () => {
-    await logoutUser();
-  };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-[#111318]/95 backdrop-blur-sm px-4 lg:px-10 py-3">
@@ -16,7 +13,10 @@ function Header() {
         <div className="flex items-center gap-8">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 text-white">
-            <div className="size-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary"></div>
+            <div className="size-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary"><span className="material-symbols-outlined text-primary text-2xl">
+    gavel
+  </span>
+</div>
             <h2 className="text-xl font-bold leading-tight tracking-[-0.015em]">
               RelicQuest
             </h2>
@@ -64,25 +64,23 @@ function Header() {
                 <div className="h-9 w-24 rounded-lg bg-white/5 animate-pulse"></div>
               </div>
             ) : user ? (
-              // Logged in state
-              <>
-                <div className="hidden sm:flex items-center gap-3">
-                  {/* User avatar with initial */}
-                  <Link
-                    to="/profile"
-                    className="size-9 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-sm hover:bg-primary/30 transition-colors"
-                  >
-                    {user.email?.charAt(0).toUpperCase() || "U"}
-                  </Link>
-                </div>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={handleLogout}
-                >
-                  Logout
-                </Button>
-              </>
+              // Logged in state - show avatar only, no logout button
+              <Link
+                to="/profile"
+                className="group relative"
+              >
+                {user.user_metadata?.avatar_url || user.user_metadata?.picture ? (
+                  <img
+                    src={user.user_metadata?.avatar_url || user.user_metadata?.picture}
+                    alt="Profile"
+                    className="size-10 rounded-full ring-2 ring-primary/50 hover:ring-primary transition-all object-cover"
+                  />
+                ) : (
+                  <div className="size-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-sm ring-2 ring-primary/50 hover:ring-primary transition-all">
+                    {user.user_metadata?.given_name?.charAt(0) || user.email?.charAt(0).toUpperCase() || "U"}
+                  </div>
+                )}
+              </Link>
             ) : (
               // Logged out state
               <>

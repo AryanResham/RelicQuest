@@ -1,10 +1,14 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import { createClient } from "@supabase/supabase-js";
 
-let supabaseUrl = process.env.SUPABASE_URL;
-let supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+const supabaseUrl = process.env.SUPABASE_URL;
+// Use service role key for server-side operations (bypasses RLS)
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error("Missing Supabase URL or Anon Key");
+if (!supabaseUrl || !supabaseServiceKey) {
+    throw new Error("Missing Supabase URL or Service Role Key");
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(supabaseUrl, supabaseServiceKey);

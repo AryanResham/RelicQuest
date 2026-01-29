@@ -41,7 +41,10 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2 text-white">
-            <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary"></div>
+            <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary"><span className="material-symbols-outlined text-primary text-2xl">
+    gavel
+  </span>
+</div>
             <h1 className="text-2xl font-bold tracking-tight">RelicQuest</h1>
           </Link>
         </div>
@@ -137,12 +140,18 @@ export default function LoginPage() {
             <Button type="submit" fullWidth size="lg" glow disabled={loading}>
               {loading ? "Signing in..." : "Sign in"}
             </Button>
+
+            <Link to="/" className="block">
+              <Button type="button" fullWidth size="lg" variant="outline">
+                Cancel
+              </Button>
+            </Link>
           </form>
 
           {/* Sign up link */}
           <p className="mt-6 text-center text-[var(--text-secondary)]">
             Don't have an account?{" "}
-            <Link to="/signup" className="text-primary hover:text-primary/80 font-medium transition-colors">
+            <Link to="/signup" className="text-primary hover:text-primary/20 font-medium transition-colors underline">
               Sign up
             </Link>
           </p>

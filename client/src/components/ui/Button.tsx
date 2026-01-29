@@ -21,7 +21,7 @@ function Button({
     "flex cursor-pointer items-center justify-center overflow-hidden rounded-lg font-bold transition-all";
 
   const variantClasses = {
-    primary: `bg-primary hover:bg-primary/90 text-white ${glow ? "shadow-[0_0_15px_rgba(25,93,230,0.3)]" : ""}`,
+    primary: `bg-primary hover:bg-primary/70 text-white ${glow ? "shadow-[0_0_15px_rgba(25,93,230,0.3)]" : ""}`,
     secondary: "bg-[#292e38] hover:bg-primary hover:text-white text-white",
     ghost:
       "bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 text-white",

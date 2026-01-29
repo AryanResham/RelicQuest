@@ -2,6 +2,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
 @import "tailwindcss";
 
+@theme {
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-background-light: var(--background-light);
+  --color-background-dark: var(--background-dark);
+  --color-card-dark: var(--card-dark);
+  --color-border: var(--border);
+  --color-border-light: var(--border-light);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+}
+
 /* Google Fonts */
 
 :root {
@@ -38,41 +53,43 @@
   }
 }
 
-/* Always enable dark mode for this design */
-html {
-  color-scheme: dark;
-}
+@layer base {
+  /* Always enable dark mode for this design */
+  html {
+    color-scheme: dark;
+  }
 
-body {
-  font-family:
-    "Manrope",
-    "Noto Sans",
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    sans-serif;
-  background-color: var(--background-dark);
-  color: var(--text-primary);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-}
+  body {
+    font-family:
+      "Manrope",
+      "Noto Sans",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      sans-serif;
+    background-color: var(--background-dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 
-button {
-  font-family: inherit;
-  cursor: pointer;
-}
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
 
-img {
-  max-width: 100%;
-  height: auto;
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 /* Custom Scrollbar */
