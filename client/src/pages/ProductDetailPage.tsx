@@ -59,6 +59,15 @@ function ProductDetailPage() {
     return () => clearInterval(interval);
   }, [item]);
 
+  // When auction timer hits 0, refetch item (triggers lazy close + winner_id), won items, and watchlist
+  useEffect(() => {
+    if (timeRemaining.isEnded && id) {
+      queryClient.invalidateQueries({ queryKey: queryKeys.items.detail(id) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.items.won });
+      queryClient.invalidateQueries({ queryKey: queryKeys.bids.byUser });
+    }
+  }, [timeRemaining.isEnded, id, queryClient]);
+
   // Computed values
   const isLive = useMemo(() => !timeRemaining.isEnded, [timeRemaining.isEnded]);
 
@@ -129,7 +138,7 @@ function ProductDetailPage() {
         <div className="flex justify-end gap-8">
           
           {/* Left Column: Title, Image, Description */}
-          <div className="flex flex-col flex-2 gap-8">
+          <div className="flex flex-col flex-2">
             
             {/* Header Info (Title & Badges) */}
             <div>
@@ -146,7 +155,7 @@ function ProductDetailPage() {
               <h1 className="text-white tracking-tight text-[28px] md:text-[32px] font-bold leading-tight mb-2">
                 {item.title}
               </h1>
-              <div className="flex items-center gap-2 text-sm text-text-secondary">
+              <div className="flex items-center gap-2 text-sm text-text-secondary mb-8">
                 <span className="material-symbols-outlined text-[16px] text-blue-400">
                   verified
                 </span>
@@ -156,6 +165,17 @@ function ProductDetailPage() {
 
             {/* Main Image Stage & Thumbnails */}
             <ProductGallery images={item.images} />
+
+            {/* Description Section */}
+            <div className="flex gap-8 mt-8">
+              <div className="flex-2">
+                <ProductDescription
+                  description={item.description}
+                  min_price={item.min_price}
+                  start_price={item.start_price}
+                />
+              </div>
+            </div>
 
           </div>
 
@@ -174,18 +194,6 @@ function ProductDetailPage() {
              </div>
           </div>
         </div>       
-
-        {/* Description Section */}     
-        <div className="flex gap-8 mt-8">
-          <div className="flex-2">
-            <ProductDescription 
-              description={item.description} 
-              min_price={item.min_price} 
-              start_price={item.start_price} 
-            />
-          </div>
-            <div className="flex-1"></div>
-        </div>
 
         {/* Similar Items */}
         <RelatedItems items={relatedItems} />

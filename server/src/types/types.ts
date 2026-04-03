@@ -102,3 +102,17 @@ export interface PlaceBidDTO {
   item_id: number;
   amount: number;
 }
+
+// Bid with nested item and seller for user profile
+export interface UserBidWithItem extends Bid {
+  item: {
+    id: number;
+    title: string;
+    images: string[];
+    current_price: number;
+    end_time: string;
+    seller?: {
+      store_name: string | null;
+    } | null;
+  };
+}

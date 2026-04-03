@@ -102,6 +102,58 @@ export const createItem = async (req: AuthenticatedRequest, res: Response): Prom
 };
 
 /**
+ * Get items listed by the authenticated seller
+ * GET /api/items/seller
+ */
+export const getSellerItems = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  try {
+    const sellerId = req.user?.id;
+    if (!sellerId) {
+      res.status(401).json({ success: false, error: 'Authentication required' });
+      return;
+    }
+
+    const result = await itemService.getItemsBySeller(sellerId);
+
+    if (!result.success) {
+      res.status(500).json(result);
+      return;
+    }
+
+    res.json(result);
+  } catch (error) {
+    console.error('getSellerItems error:', error);
+    res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+};
+
+/**
+ * Get items won by the authenticated user
+ * GET /api/items/won
+ */
+export const getWonItems = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ success: false, error: 'Authentication required' });
+      return;
+    }
+
+    const result = await itemService.getWonItems(userId);
+
+    if (!result.success) {
+      res.status(500).json(result);
+      return;
+    }
+
+    res.json(result);
+  } catch (error) {
+    console.error('getWonItems error:', error);
+    res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+};
+
+/**
  * Get related items
  * GET /api/items/:id/related
  */

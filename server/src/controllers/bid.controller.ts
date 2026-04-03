@@ -1,7 +1,6 @@
 import type { Response } from 'express';
 import * as bidService from '../services/bid.service.js';
 import type { AuthenticatedRequest, PlaceBidDTO } from '../types/types.js';
-import { getIO } from '../socket/socket.js';
 
 /**
  * Place a bid on an item
@@ -35,23 +34,35 @@ export const placeBid = async (req: AuthenticatedRequest, res: Response): Promis
       return;
     }
 
-    // Emit real-time bid update to all connected clients
-    const bidUpdate = {
-      itemId: item_id,
-      newPrice: amount,
-      bidder: `Bidder ${userId.slice(-4).toUpperCase()}`,
-      timestamp: new Date().toISOString()
-    };
-    
-    // Emit to the specific auction room (for detail page viewers)
-    getIO().to(`auction-${item_id}`).emit('bid-update', bidUpdate);
-    
-    // Emit to the auctions list room (for browse page viewers)
-    getIO().to('auctions-list').emit('bid-update', bidUpdate);
-
     res.status(201).json(result);
   } catch (error) {
     console.error('placeBid controller error:', error);
+    res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+};
+
+/**
+ * Get all bids placed by the authenticated user
+ * GET /api/bids/user
+ */
+export const getUserBids = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ success: false, error: 'Authentication required' });
+      return;
+    }
+
+    const result = await bidService.getBidsByUser(userId);
+
+    if (!result.success) {
+      res.status(500).json(result);
+      return;
+    }
+
+    res.json(result);
+  } catch (error) {
+    console.error('getUserBids controller error:', error);
     res.status(500).json({ success: false, error: 'Internal server error' });
   }
 };

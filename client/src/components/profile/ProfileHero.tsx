@@ -110,7 +110,7 @@ export default function ProfileHero({
         </div>
 
         {/* Action buttons */}
-        <div className="hidden xl:flex flex-col gap-3">
+        <div className="flex flex-row md:flex-col justify-center gap-3 w-full md:w-auto">
           {isSeller ? (
             <Link 
               to="/list-item"
@@ -119,7 +119,7 @@ export default function ProfileHero({
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
               </svg>
-              List an Item
+              <span className="whitespace-nowrap">List an Item</span>
             </Link>
           ) : (
             <Link 
@@ -129,13 +129,13 @@ export default function ProfileHero({
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
-              Become a Seller
+              <span className="whitespace-nowrap">Become a Seller</span>
             </Link>
           )}
           {onLogout && (
             <button 
               onClick={onLogout}
-              className="flex items-center justify-center gap-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-500 font-bold py-2.5 px-6 rounded-lg transition-colors min-w-3xs"
+              className="flex items-center justify-center gap-2 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-500 font-bold py-2.5 px-6 rounded-lg transition-colors"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />

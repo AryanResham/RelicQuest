@@ -1,5 +1,5 @@
 import { supabase } from '../config/supabase.js';
-import type { Bid, BidWithUser, Item } from '../types/types.js';
+import type { Bid, BidWithUser, Item, UserBidWithItem } from '../types/types.js';
 
 /**
  * Place a bid on an item
@@ -103,6 +103,45 @@ export const getBidsByItem = async (
     return { success: true, data: (data || []) as BidWithUser[] };
   } catch (error) {
     console.error('getBidsByItem error:', error);
+    return { success: false, error: 'Failed to fetch bids' };
+  }
+};
+
+/**
+ * Get all bids placed by a user (latest bid per item, with item data)
+ */
+export const getBidsByUser = async (
+  userId: string
+): Promise<{ success: boolean; data?: UserBidWithItem[]; error?: string }> => {
+  try {
+    const { data, error } = await supabase
+      .from('bids')
+      .select(`
+        id, item_id, user_id, amount, created_at,
+        item (
+          id, title, images, current_price, end_time,
+          seller ( store_name )
+        )
+      `)
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching user bids:', error);
+      return { success: false, error: error.message };
+    }
+
+    // Keep only the latest bid per item
+    const seen = new Set<number>();
+    const unique = (data || []).filter(bid => {
+      if (seen.has(bid.item_id)) return false;
+      seen.add(bid.item_id);
+      return true;
+    });
+
+    return { success: true, data: unique as unknown as UserBidWithItem[] };
+  } catch (error) {
+    console.error('getBidsByUser error:', error);
     return { success: false, error: 'Failed to fetch bids' };
   }
 };

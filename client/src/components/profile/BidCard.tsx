@@ -1,4 +1,5 @@
 import Badge from '../ui/Badge';
+import {useNavigate } from 'react-router-dom';
 
 export type BidStatus = 'winning' | 'outbid' | 'ended' | 'watching';
 
@@ -72,13 +73,15 @@ function formatCurrency(amount: number): string {
 export default function BidCard({ bid, onIncreaseBid, onBidAgain }: BidCardProps) {
   const config = statusConfig[bid.status];
   const isOutbid = bid.status === 'outbid';
+  const navigate = useNavigate();
 
   return (
-    <div className="group bg-[var(--card-dark)] rounded-xl border border-[var(--border)] overflow-hidden flex flex-col md:flex-row transition-all hover:border-primary/50">
+    <div className="group bg-[var(--card-dark)] rounded-xl border border-[var(--border)] overflow-hidden flex flex-col md:flex-row transition-all hover:border-primary/50" >
       {/* Image */}
       <div
         className="md:w-64 h-48 md:h-auto bg-cover bg-center"
         style={{ backgroundImage: `url("${bid.imageUrl}")` }}
+        onClick={() => navigate(`/auction/${bid.id}`)}
       />
 
       {/* Content */}
@@ -86,7 +89,7 @@ export default function BidCard({ bid, onIncreaseBid, onBidAgain }: BidCardProps
         {/* Header */}
         <div className="flex justify-between items-start gap-4 mb-4">
           <div>
-            <h3 className="text-lg font-bold leading-tight mb-1 text-white group-hover:text-primary transition-colors">
+            <h3 className="text-lg font-bold leading-tight mb-1 text-white group-hover:text-primary transition-colors cursor-pointer" onClick={() => navigate(`/auction/${bid.id}`)}>
               {bid.title}
             </h3>
             <p className="text-sm text-[var(--text-muted)]">

@@ -7,11 +7,10 @@ export function useItemBids(itemId: number, limit: number = 5) {
     queryKey: queryKeys.bids.byItem(itemId),
     queryFn: async () => {
       const result = await getItemBids(itemId, limit);
-      if (result.success && result.data) {
-        return result.data;
-      }
+      if (result.success && result.data) return result.data;
       return [];
     },
-    staleTime: 15_000,
+    staleTime: Infinity,
   });
 }
+

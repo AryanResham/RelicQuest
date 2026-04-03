@@ -20,7 +20,7 @@ function Newsletter() {
                 placeholder="Enter your email"
                 type="email"
               />
-              <Button variant="primary" className="px-6 py-3">
+              <Button variant="primary" className="px-6 py-3 h-12">
                 Subscribe
               </Button>
             </div>

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 interface CategoryCardProps {
   title: string;
   imageUrl: string;
@@ -12,9 +14,9 @@ function CategoryCard({
   href = "#",
 }: CategoryCardProps) {
   return (
-    <a
+    <Link
       className="group relative flex flex-col overflow-hidden rounded-xl aspect-[4/3] bg-[#292e38]"
-      href={href}
+      to={href}
     >
       {/* Background image */}
       <div
@@ -28,8 +30,9 @@ function CategoryCard({
       <div className="absolute bottom-0 left-0 p-4 w-full">
         <h3 className="text-white font-bold text-lg">{title}</h3>
       </div>
-    </a>
+    </Link>
   );
 }
 
 export default CategoryCard;
+

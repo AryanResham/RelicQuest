@@ -55,6 +55,7 @@ function Categories() {
               title={category.title}
               imageUrl={category.imageUrl}
               imageAlt={category.imageAlt}
+              href="/auctions"
             />
           ))}
         </div>

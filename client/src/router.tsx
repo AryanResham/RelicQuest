@@ -8,6 +8,7 @@ import ProfilePage from "./pages/ProfilePage";
 import EditProfilePage from "./pages/EditProfilePage";
 import BecomeSellerPage from "./pages/BecomeSellerPage";
 import ListItemPage from "./pages/ListItemPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import { PublicOnlyRoute, ProtectedRoute, SellerOnlyRoute } from "./components/auth";
 import BrowseAuctionsPage from "./pages/BrowseAuctionsPage";
 
@@ -80,6 +81,10 @@ const Router = createBrowserRouter([
         <ListItemPage />
       </SellerOnlyRoute>
     )
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />
   },
 ])
 

@@ -5,6 +5,7 @@ import type { Item, TimeRemaining } from "./types";
 import { useAuthContext } from "@/context/useAuthContext";
 import { useItemBids } from "@/hooks/useItemBids";
 import { usePlaceBid } from "@/hooks/usePlaceBid";
+import { useToggleWatchlist } from "@/hooks/useWatchlist";
 
 interface BiddingCardProps {
   item: Item;
@@ -44,6 +45,7 @@ export function BiddingCard({ item, isLive, timeRemaining, onBidPlaced }: Biddin
 
   const { data: bids = [], isLoading: loadingBids } = useItemBids(item.id);
   const bidMutation = usePlaceBid(item.id, id);
+  const { isWatching, toggle: toggleWatch, isPending: watchPending } = useToggleWatchlist(item.id);
 
   const nextBidAmount = item.current_price + item.bid_increment;
   const reserveMet = item.current_price >= item.min_price;
@@ -163,6 +165,23 @@ export function BiddingCard({ item, isLive, timeRemaining, onBidPlaced }: Biddin
                 )}
               </Button>
 
+              {user && (
+                <button
+                  onClick={() => toggleWatch()}
+                  disabled={watchPending}
+                  className={`w-full h-10 rounded-lg border text-sm font-semibold transition-all flex items-center justify-center gap-2 ${
+                    isWatching
+                      ? 'border-primary/50 text-primary bg-primary/10 hover:bg-primary/20'
+                      : 'border-[#292e38] text-text-secondary hover:text-white hover:border-white/30'
+                  }`}
+                >
+                  <span className="material-symbols-outlined text-[18px]">
+                    {isWatching ? 'visibility' : 'visibility_off'}
+                  </span>
+                  {isWatching ? 'Watching' : 'Watch Auction'}
+                </button>
+              )}
+
               <div className="text-center">
                  <p className="text-[11px] text-text-secondary leading-relaxed">
                    By placing a bid, you agree to the <a href="#" className="underline hover:text-white">Conditions of Sale</a>.
@@ -170,9 +189,29 @@ export function BiddingCard({ item, isLive, timeRemaining, onBidPlaced }: Biddin
               </div>
            </div>
          ) : (
-           <div className="text-center py-4 bg-[#111621] rounded-lg">
-              <p className="text-text-secondary mb-2">Auction has ended</p>
-              <Link to="/"><Button variant="outline" size="sm">Browse More</Button></Link>
+           <div className="flex flex-col gap-3">
+             {item.winner_id ? (
+               item.winner_id === user?.id ? (
+                 <div className="flex flex-col items-center gap-2 py-5 bg-green-500/10 border border-green-500/30 rounded-xl text-center">
+                   <span className="material-symbols-outlined text-4xl text-green-400">emoji_events</span>
+                   <p className="text-green-400 font-bold text-lg">You won this auction!</p>
+                   <p className="text-text-secondary text-sm">Winning bid: {formatCurrency(item.current_price)}</p>
+                 </div>
+               ) : (
+                 <div className="flex flex-col items-center gap-2 py-5 bg-[#111621] border border-[#292e38] rounded-xl text-center">
+                   <span className="material-symbols-outlined text-4xl text-text-secondary">gavel</span>
+                   <p className="text-white font-bold">Auction Ended</p>
+                   <p className="text-text-secondary text-sm">Sold for {formatCurrency(item.current_price)}</p>
+                 </div>
+               )
+             ) : (
+               <div className="flex flex-col items-center gap-2 py-5 bg-[#111621] border border-[#292e38] rounded-xl text-center">
+                 <span className="material-symbols-outlined text-4xl text-text-secondary">gavel</span>
+                 <p className="text-white font-bold">Auction Ended</p>
+                 <p className="text-text-secondary text-sm">No bids were placed</p>
+               </div>
+             )}
+             <Link to="/auctions"><Button variant="outline" fullWidth>Browse More Auctions</Button></Link>
            </div>
          )}
        </div>
@@ -207,12 +246,12 @@ export function BiddingCard({ item, isLive, timeRemaining, onBidPlaced }: Biddin
               ))}
             </div>
           )}
-          
+{/*           
           {bids.length > 0 && (
             <button className="w-full mt-4 text-primary text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1 hover:text-primary-hover transition-colors">
               View Full History <span className="material-symbols-outlined text-[16px]">expand_more</span>
             </button>
-          )}
+          )} */}
        </div>
     </div>
   );

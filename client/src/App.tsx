@@ -3,6 +3,8 @@ import Router from "./router";
 import AuthContextProvider from "./context/AuthContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import ErrorBoundary from "./components/ErrorBoundary";
+import { useBidRealtime } from "./hooks/useBidRealtime";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,13 +16,22 @@ const queryClient = new QueryClient({
   },
 });
 
+function RealtimeProvider({ children }: { children: React.ReactNode }) {
+  useBidRealtime();
+  return <>{children}</>;
+}
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthContextProvider>
-        <RouterProvider router={Router} />
-      </AuthContextProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ErrorBoundary>
+        <RealtimeProvider>
+          <AuthContextProvider>
+            <RouterProvider router={Router} />
+          </AuthContextProvider>
+        </RealtimeProvider>
+      </ErrorBoundary>
+      {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
     </QueryClientProvider>
   );
 }

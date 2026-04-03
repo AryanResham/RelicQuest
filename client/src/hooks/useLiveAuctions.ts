@@ -33,3 +33,4 @@ export function useLiveAuctions(page: number, limit: number) {
     placeholderData: keepPreviousData,
   });
 }
+

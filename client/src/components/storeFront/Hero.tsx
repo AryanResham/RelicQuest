@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Button } from "../ui";
 
 function Hero() {
@@ -22,17 +23,21 @@ function Hero() {
           </h2>
         </div>
         <div className="flex flex-wrap gap-4 relative z-10 mt-2">
-          <Button
-            variant="primary"
-            size="lg"
-            glow
-            className="shadow-[0_4px_20px_rgba(25,93,230,0.4)]"
-          >
-            Start Selling
-          </Button>
-          <Button variant="ghost" size="lg">
-            Browse Auctions
-          </Button>
+          <Link to="/become-seller">
+            <Button
+              variant="primary"
+              size="lg"
+              glow
+              className="shadow-[0_4px_20px_rgba(25,93,230,0.4)]"
+            >
+              Start Selling
+            </Button>
+          </Link>
+          <Link to="/auctions">
+            <Button variant="ghost" size="lg">
+              Browse Auctions
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
