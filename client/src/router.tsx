@@ -7,13 +7,19 @@ import AuthCallback from "./pages/AuthCallback";
 import ProfilePage from "./pages/ProfilePage";
 import EditProfilePage from "./pages/EditProfilePage";
 import BecomeSellerPage from "./pages/BecomeSellerPage";
-import { PublicOnlyRoute, ProtectedRoute } from "./components/auth";
+import ListItemPage from "./pages/ListItemPage";
+import { PublicOnlyRoute, ProtectedRoute, SellerOnlyRoute } from "./components/auth";
+import BrowseAuctionsPage from "./pages/BrowseAuctionsPage";
 
 const Router = createBrowserRouter([
   // Public routes
   {
     path: "/",
     element: <StorefrontPage />
+  },
+  {
+    path: "/auctions",
+    element: <BrowseAuctionsPage />
   },
   {
     path: "/auction/:id",
@@ -65,6 +71,14 @@ const Router = createBrowserRouter([
       <ProtectedRoute>
         <BecomeSellerPage />
       </ProtectedRoute>
+    )
+  },
+  {
+    path: "/list-item",
+    element: (
+      <SellerOnlyRoute>
+        <ListItemPage />
+      </SellerOnlyRoute>
     )
   },
 ])

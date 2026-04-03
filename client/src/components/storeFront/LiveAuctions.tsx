@@ -1,4 +1,5 @@
 import AuctionCard from "../ui/AuctionCard";
+import { Link } from "react-router-dom";
 const liveAuctions = [
   {
     id: 1,
@@ -49,15 +50,15 @@ function LiveAuctions() {
         <h2 className="text-white text-[28px] font-bold leading-tight tracking-[-0.015em]">
           Live Auctions
         </h2>
-        <a
+        <Link
           className="text-primary text-sm font-bold hover:underline flex items-center gap-1"
-          href="#"
+          to="/auctions"
         >
           View All{" "}
           <span className="material-symbols-outlined text-sm">
             arrow_forward
           </span>
-        </a>
+        </Link>
       </div>
       <section className="px-4 lg:px-10 pb-8">
         <div className="flex overflow-x-auto pb-4 gap-4 snap-x snap-mandatory scroll-smooth [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">

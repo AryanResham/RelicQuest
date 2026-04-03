@@ -54,6 +54,37 @@ export const verifyToken = async (
   }
 };
 
+// check if authenticated user has a seller account
+export const isSeller = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      res.status(401).json({ success: false, error: 'Not authenticated' });
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from('users')
+      .select('is_seller')
+      .eq('id', userId)
+      .single();
+
+    if (error || !data?.is_seller) {
+      res.status(403).json({ success: false, error: 'Seller account required' });
+      return;
+    }
+
+    next();
+  } catch (error) {
+    console.error('isSeller middleware error:', error);
+    res.status(500).json({ success: false, error: 'Authorization failed' });
+  }
+};
+
 // match parameter id to modify resource with id of authenticated user
 export const isOwner = (paramName: string = 'id') => {
   return (

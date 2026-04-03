@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/useAuthContext";
 import { Header } from "../components/layout";
 import { Button } from "../components/ui";
-import api from "../lib/axios";
+import { useUpdateProfile } from "../hooks/useUpdateProfile";
 
 export default function EditProfilePage() {
   const { user } = useAuthContext();
@@ -23,9 +23,7 @@ export default function EditProfilePage() {
   const [username, setUsername] = useState(user?.email?.split('@')[0] || '');
   const [avatarPreview, setAvatarPreview] = useState(currentAvatar);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const mutation = useUpdateProfile();
 
   const defaultAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=195de6&color=fff&size=160`;
 
@@ -33,81 +31,29 @@ export default function EditProfilePage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-    if (!allowedTypes.includes(file.type)) {
-      setError('Invalid file type. Allowed: JPEG, PNG, WebP, GIF');
-      return;
-    }
-
-    // Validate file size (5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      setError('File too large. Maximum size is 5MB');
-      return;
-    }
+    if (!allowedTypes.includes(file.type)) return;
+    if (file.size > 5 * 1024 * 1024) return;
 
     setSelectedFile(file);
     setAvatarPreview(URL.createObjectURL(file));
-    setError('');
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError('');
-    setSuccess('');
+    const userId = user?.id;
+    if (!userId) return;
 
-    try {
-      const userId = user?.id;
-      if (!userId) {
-        setError('User not found');
-        setLoading(false);
-        return;
-      }
+    const currentUsername = user?.email?.split('@')[0] || '';
 
-      // Upload avatar if a new file was selected
-      if (selectedFile) {
-        const formData = new FormData();
-        formData.append('avatar', selectedFile);
-
-        const avatarResponse = await api.put(`/api/users/${userId}/avatar`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-
-        if (!avatarResponse.data.success) {
-          setError(avatarResponse.data.error || 'Failed to upload avatar');
-          setLoading(false);
-          return;
-        }
-      }
-
-      // Update username if changed
-      const currentUsername = user?.email?.split('@')[0] || '';
-      if (username && username !== currentUsername) {
-        const usernameResponse = await api.put(`/api/users/${userId}`, { username });
-        
-        if (!usernameResponse.data.success) {
-          setError(usernameResponse.data.error || 'Failed to update username');
-          setLoading(false);
-          return;
-        }
-      }
-
-      setSuccess('Profile updated successfully!');
-      
-      // Navigate back to profile after a short delay
-      setTimeout(() => {
-        navigate('/profile');
-      }, 1500);
-
-    } catch (err) {
-      console.error('Update error:', err);
-      setError('Failed to update profile. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+    mutation.mutate(
+      {
+        userId,
+        username: username !== currentUsername ? username : undefined,
+        avatarFile: selectedFile || undefined,
+      },
+      { onSuccess: () => setTimeout(() => navigate('/profile'), 1500) }
+    );
   };
 
   return (
@@ -132,16 +78,16 @@ export default function EditProfilePage() {
           <p className="text-[var(--text-muted)] text-sm mb-6">Update your avatar and profile information</p>
 
           {/* Error Message */}
-          {error && (
+          {mutation.isError && (
             <div className="mb-4 p-3 rounded-lg bg-[var(--error)]/10 border border-[var(--error)]/20 text-[var(--error)] text-sm">
-              {error}
+              {mutation.error?.message || 'Failed to update profile. Please try again.'}
             </div>
           )}
 
           {/* Success Message */}
-          {success && (
+          {mutation.isSuccess && (
             <div className="mb-4 p-3 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-sm">
-              {success}
+              Profile updated successfully!
             </div>
           )}
 
@@ -215,8 +161,8 @@ export default function EditProfilePage() {
 
             {/* Action Buttons */}
             <div className="flex gap-4 pt-4">
-              <Button type="submit" fullWidth size="lg" glow disabled={loading}>
-                {loading ? "Saving..." : "Save Changes"}
+              <Button type="submit" fullWidth size="lg" glow disabled={mutation.isPending}>
+                {mutation.isPending ? "Saving..." : "Save Changes"}
               </Button>
               <Link to="/profile" className="w-full">
                 <Button type="button" fullWidth size="lg" variant="outline">

@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Header, Footer } from '../components/layout';
 import { ProfileHero, ProfileTabs, BidCard, type ProfileTab, type BidCardData } from '../components/profile';
 import { useAuthContext } from '../context/useAuthContext';
-import api from '../lib/axios';
+import { useUserProfile } from '../hooks/useUserProfile';
 
 // Mock data for demonstration
 const mockBids: BidCardData[] = [
@@ -58,23 +58,7 @@ const mockWatchlist: BidCardData[] = [
 export default function ProfilePage() {
   const { user, logoutUser } = useAuthContext();
   const [activeTab, setActiveTab] = useState<ProfileTab>('active-bids');
-  const [profileData, setProfileData] = useState<{ avatar?: string; username?: string; is_seller?: boolean } | null>(null);
-
-  // Fetch user profile from database on mount
-  useEffect(() => {
-    const fetchProfile = async () => {
-      if (!user?.id) return;
-      try {
-        const response = await api.get(`/api/users/${user.id}`);
-        if (response.data.success) {
-          setProfileData(response.data.data);
-        }
-      } catch (error) {
-        console.error('Failed to fetch profile:', error);
-      }
-    };
-    fetchProfile();
-  }, [user?.id]);
+  const { data: profileData } = useUserProfile(user?.id);
 
   // Get user metadata (fallback to auth data)
   const userMetadata = user?.user_metadata || {};

@@ -41,6 +41,7 @@ function AuctionCard({
           data-alt={imageAlt}
           style={{ backgroundImage: `url("${imageUrl}")` }}
         />
+        
       </div>
 
       {/* Content */}

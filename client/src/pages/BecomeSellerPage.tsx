@@ -2,66 +2,24 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header, Footer } from '../components/layout';
 import { useAuthContext } from '../context/useAuthContext';
-import { supabase } from '../supabase';
+import { useBecomeSeller } from '../hooks/useBecomeSeller';
 
 export default function BecomeSellerPage() {
   const navigate = useNavigate();
   const { user } = useAuthContext();
   const [storeName, setStoreName] = useState('');
   const [phoneNo, setPhoneNo] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const mutation = useBecomeSeller();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!user?.id) {
-      setError('You must be logged in to become a seller');
-      return;
-    }
 
-    if (!storeName.trim()) {
-      setError('Store name is required');
-      return;
-    }
+    if (!user?.id) return;
 
-    setLoading(true);
-    setError('');
-
-    try {
-      // Create seller profile
-      const { error: sellerError } = await supabase
-        .from('seller')
-        .upsert({
-          id: user.id,
-          store_name: storeName.trim(),
-          phone_no: phoneNo.trim() || null,
-        });
-
-      if (sellerError) {
-        console.log("error creating seller", sellerError)
-        throw sellerError;
-      }
-
-      // Update user's is_seller flag
-      const { error: userError } = await supabase
-        .from('users')
-        .update({ is_seller: true })
-        .eq('id', user.id);
-
-      if (userError) {
-        console.log("error updating user", userError)
-        throw userError;
-      }
-
-      // Success! Navigate to profile
-      navigate('/profile');
-    } catch (err) {
-      console.error('Error becoming seller:', err);
-      setError(err instanceof Error ? err.message : 'Failed to become a seller. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+    mutation.mutate(
+      { userId: user.id, store_name: storeName.trim(), phone_no: phoneNo.trim() || undefined },
+      { onSuccess: () => navigate('/profile') }
+    );
   };
 
   return (
@@ -101,9 +59,9 @@ export default function BecomeSellerPage() {
         <form onSubmit={handleSubmit} className="bg-[var(--card-dark)] border border-[var(--border)] rounded-2xl p-8">
           <h2 className="text-xl font-bold text-white mb-6">Seller Information</h2>
 
-          {error && (
+          {mutation.isError && (
             <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
-              {error}
+              {mutation.error?.message || 'Failed to become a seller. Please try again.'}
             </div>
           )}
 
@@ -148,10 +106,10 @@ export default function BecomeSellerPage() {
           <div className="mt-8 pt-6 border-t border-[var(--border)]">
             <button
               type="submit"
-              disabled={loading}
+              disabled={mutation.isPending}
               className="w-full py-4 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white font-bold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {loading ? (
+              {mutation.isPending ? (
                 <>
                   <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />

@@ -48,3 +48,57 @@ export interface AuthenticatedRequest extends Request {
     email: string;
   };
 }
+
+
+export interface Item {
+  id: number;
+  title: string;
+  description: string;
+  images: string[];
+  start_price: number;
+  min_price: number;
+  bid_increment: number;
+  current_price: number;
+  start_time: string;
+  end_time: string;
+  status: string;
+  seller_id: string;
+  winner_id: string | null;
+  category_id: number | null;
+  is_verified: boolean;
+  created_at?: string;
+}
+
+// Seller info interface for joined queries
+export interface ItemWithSeller extends Item {
+  seller?: {
+    id: string;
+    store_name: string;
+    phone_no?: string;
+    is_verified: boolean;
+    rating: number;
+  };
+}
+
+// Bid interface matching Supabase schema
+export interface Bid {
+  id: number;
+  item_id: number;
+  user_id: string;
+  amount: number;
+  created_at: string;
+}
+
+// Bid with user info for display
+export interface BidWithUser extends Bid {
+  user?: {
+    id: string;
+    username: string | null;
+  };
+}
+
+// DTO for placing a bid
+export interface PlaceBidDTO {
+  item_id: number;
+  amount: number;
+}

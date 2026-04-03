@@ -33,13 +33,13 @@ export const getAuctions = async (params?: {
   limit?: number;
   offset?: number;
 }) => {
-  const response = await api.get<{ auctions: Auction[]; total: number }>("/api/auctions", { params });
+  const response = await api.get<{ auctions: Auction[]; total: number }>("/auctions", { params });
   return response.data;
 };
 
 // Get single auction by ID
 export const getAuction = async (id: string) => {
-  const response = await api.get<Auction>(`/api/auctions/${id}`);
+  const response = await api.get<Auction>(`/auctions/${id}`);
   return response.data;
 };
 
@@ -52,19 +52,19 @@ export const createAuction = async (data: {
   endsAt: string;
   category?: string;
 }) => {
-  const response = await api.post<Auction>("/api/auctions", data);
+  const response = await api.post<Auction>("/auctions", data);
   return response.data;
 };
 
 // Place a bid (protected)
 export const placeBid = async (auctionId: string, amount: number) => {
-  const response = await api.post<Bid>(`/api/auctions/${auctionId}/bids`, { amount });
+  const response = await api.post<Bid>(`/auctions/${auctionId}/bids`, { amount });
   return response.data;
 };
 
 // Get bids for an auction
 export const getAuctionBids = async (auctionId: string) => {
-  const response = await api.get<Bid[]>(`/api/auctions/${auctionId}/bids`);
+  const response = await api.get<Bid[]>(`/auctions/${auctionId}/bids`);
   return response.data;
 };
 
@@ -82,7 +82,7 @@ export interface UserProfile {
 
 // Get current user profile
 export const getProfile = async () => {
-  const response = await api.get<UserProfile>("/api/users/me");
+  const response = await api.get<UserProfile>("/users/me");
   return response.data;
 };
 
@@ -91,18 +91,18 @@ export const updateProfile = async (data: {
   displayName?: string;
   avatarUrl?: string;
 }) => {
-  const response = await api.patch<UserProfile>("/api/users/me", data);
+  const response = await api.patch<UserProfile>("/users/me", data);
   return response.data;
 };
 
 // Get user's auctions
 export const getMyAuctions = async () => {
-  const response = await api.get<Auction[]>("/api/users/me/auctions");
+  const response = await api.get<Auction[]>("/users/me/auctions");
   return response.data;
 };
 
 // Get user's bids
 export const getMyBids = async () => {
-  const response = await api.get<Bid[]>("/api/users/me/bids");
+  const response = await api.get<Bid[]>("/users/me/bids");
   return response.data;
 };
